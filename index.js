@@ -49,17 +49,13 @@ app.get('/api/notes', (request, response) => {
 })
 
 app.get('/api/notes/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const note = notes.find(note => {
-    return note.id === id
+    Note.findById(request.params.id).then(note => {
+        response.json(note)
     })
 
-    if (note){
-        response.json(note)
-    } else {
         response.statusMessage = 'Sorry :('
         response.status(404).end()
-    }
+    
 })
 
 const generateId = () => {
@@ -76,15 +72,14 @@ app.post('/api/notes', (request, response) => {
         })
     }
     
-    const note = {
+    const note = new Note({
         content: body.content,
-        important: Boolean(body.important) || false,
-        id: generateId()
-    }
+        important: body.important || false,
+    })
 
-    notes=notes.concat(note)
-    response.json(note)
-
+    note.save().then(savedNote => {
+        response.json(savedNote)
+    })
 })
 
 app.delete('/api/notes/:id', (request, response) => {
