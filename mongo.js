@@ -1,13 +1,6 @@
 const mongoose = require('mongoose')
 
-if (process.argv.length>3){
-  console.log('give password as argument')
-  process.exit(1)
-}
-
-const password = process.argv[2]
-
-const url = `mongodb+srv://fullstack:${password}@cluster0.nkdws0t.mongodb.net/noteApp?retryWrites=true&w=majority`
+const url = 'mongodb+srv://fullstack:FullStackOpen@cluster0.akdhmiz.mongodb.net/testNoteApp?retryWrites=true&w=majority'
 
 mongoose.set('strictQuery', false)
 mongoose.connect(url)
@@ -26,12 +19,13 @@ Note.find({}).then(result => {
   mongoose.connection.close()
 })
 
-// const note = new Note({
-//     content: 'Moongoose makes things easy',
-//     important: true
-// })
+const note = new Note({
+  content: 'Moongooooooooooose is cool',
+  important: true
+})
 
-// note.save().then(result => {
-//     console.log('note saved!')
-//     mongoose.connection.close()
-// })
+note.save().then(result => {
+  console.log('note saved!')
+  mongoose.connection.close()
+})
+
