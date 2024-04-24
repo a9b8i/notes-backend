@@ -39,9 +39,12 @@ describe('when there is initially some notes saved', () => {
 
 describe('addition of a new note', () => {
   test('a valid note can be added', async () => {
+    const users = await helper.usersInDb()
+    const userId = users[0].id
     const note = {
       content: 'async/await simplifies making async calls',
       import: true,
+      userId: userId
     }
 
     await api.post('/api/notes').send(note).expect(201).expect('Content-Type', /application\/json/)
@@ -55,8 +58,11 @@ describe('addition of a new note', () => {
   })
 
   test('a note without content is not added', async () => {
+    const users = await helper.usersInDb()
+    const userId = users[0].id
     const note = {
       import: true,
+      userId: userId
     }
 
     await api.post('/api/notes').send(note).expect(400)
